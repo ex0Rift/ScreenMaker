@@ -10,6 +10,7 @@ public class ScreenMaker
         Line = "\u2550",
         VLine = "\u2551";
 
+    public int[] PlayerCoords = {0,0};
     public string[,] ScreenSpace;
     private int height;
     private int width;
@@ -43,6 +44,33 @@ public class ScreenMaker
                 Column += x;
             }
         }    
+    }
+    
+    public void CreatePlayer(int row, int column, string Character = "P", System.ConsoleColor Color = ConsoleColor.Blue)
+    {
+        EditScreenObj(row,column,Character);
+        PlayerCoords[0] = row;
+        PlayerCoords[1] = column;
+        Task.Run(async () => await MovmentControl());
+    }
+
+    private async Task MovmentControl()
+    {
+        while (true)
+        {
+            if (Console.KeyAvailable)
+            {
+                int RChange = 0, CChange = 0;
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.UpArrow) RChange = -1;
+                else if (key.Key == ConsoleKey.DownArrow) RChange = 1;
+                else if (key.Key == ConsoleKey.LeftArrow) CChange = -1;
+                else if (key.Key == ConsoleKey.RightArrow) CChange = 1;
+                
+                MoveScreenObj(ref PlayerCoords[0],ref PlayerCoords[1],RChange,CChange);
+            }
+        }
     }
 
     public void FormScreen()
@@ -85,4 +113,6 @@ public class ScreenMaker
             }
         }
     }
+
+    
 }

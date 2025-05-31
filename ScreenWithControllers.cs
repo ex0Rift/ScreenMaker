@@ -9,6 +9,8 @@ public class ScreenWithControllers
     {
         screenMaker.FormScreen();//Creates the screen
 
+        screenMaker.CreatePlayer(5,5,"A",ConsoleColor.DarkGreen);
+        
         while (true)//logic loop keeps the program alive
         {
             screenMaker.ShowScreen();//This must be called after updates for it to physically be displayed
